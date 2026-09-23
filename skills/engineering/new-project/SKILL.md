@@ -1,6 +1,9 @@
 ---
 name: new-project
-description: Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Use whenever the user asks to start a new project, bootstrap a new repo, set up a new GitHub project for agent-driven development, or scaffold the standard engineering process files for a repo. Trigger even if they only describe the project idea without naming these files explicitly - inferring what the repo needs is part of the job.
+description: Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Invoked explicitly via /new-project, not triggered automatically.
+disable-model-invocation: true
+user-invocable: true
+argument-hint: "[repo name, short project description]"
 ---
 
 # new-project
@@ -35,6 +38,13 @@ this you don't already have from context:
   description does two jobs: it becomes the repo description and the
   opening line of `AGENTS.md`, and it's what you use in step 2 to infer
   labels.
+- Technology or framework (optional): only ask if the description didn't
+  already make it clear (e.g. "a Next.js e-commerce site" already
+  answers this - don't ask again). Free text, not a pick-list - fold the
+  answer into the project description you carry into the later steps. It
+  doesn't drive `.gitignore` or area labels (see below), it's just
+  useful context for whatever agent works in the repo afterward, and can
+  sharpen your own label proposals in step 2.
 - Visibility: default to `private` unless the user says otherwise.
 
 Do not ask the user to pick from a fixed list of "modules" or "stacks" to
