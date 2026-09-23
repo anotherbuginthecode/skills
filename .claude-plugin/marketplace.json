@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "skills",
+  "name": "anotherbuginthecode",
   "description": "Alessandro Mangone's personal Claude Code skills marketplace.",
   "owner": {
     "name": "Alessandro Mangone",
