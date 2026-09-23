@@ -36,6 +36,7 @@ Skills under `skills/deprecated/` and `skills/in-progress/` are excluded from th
 | --- | --- | --- |
 | `architecture` | Creates or updates root ARCHITECTURE.md from verified implementation. Use when a repository needs current architecture documentation or a structural change made it stale. Use design for proposed systems or changes. | `/architecture [repository or existing ARCHITECTURE.md]` |
 | `architecture-review` | Reviews a technical proposal before implementation. Use for designs, RFCs, ADRs, architecture proposals, and issues that define how a system change should work. Finds material ambiguity and flaws in correctness, scalability, performance, security, operations, and proof. | `/architecture-review [technical proposal, design, RFC, ADR, or issue]` |
+| `design` | Writes a proposed design covering requirements, user experience, technical choices, and proof. Use when important product or technical choices must be settled before coding. Use architecture to document an implemented system. | `/design <feature, problem, or brief>` |
 | `improve` | Makes existing code easier to understand without changing behavior. Use to simplify structure, remove duplication or dead code, improve names, or remove unnecessary abstractions. | `/improve [code, files, diff, branch, or improvement focus]` |
 | `new-project` | Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Invoked explicitly via /new-project, not triggered automatically. | `/new-project [repo name, short project description]` |
 | `next-issue` | Coordinates one iteration of the delivery loop: resumes or picks the next ready GitHub issue for an area, delivers it through /task-to-pr, applies the board's autonomy rules, and ends with a LOOP_STATUS line. Use to drive implementation one issue per fresh context. | `/next-issue <area: infra|backend|frontend|security|docs>` |
@@ -48,4 +49,4 @@ Skills under `skills/deprecated/` and `skills/in-progress/` are excluded from th
 
 ## Citations
 
-`architecture`, `architecture-review`, `improve`, `plan`, and `task-to-pr` are adapted from [owainlewis/blueprint](https://github.com/owainlewis/blueprint).
+`architecture`, `architecture-review`, `design`, `improve`, `plan`, and `task-to-pr` are adapted from [owainlewis/blueprint](https://github.com/owainlewis/blueprint).

@@ -20,6 +20,12 @@
       "source": "./plugins/architecture-review"
     },
     {
+      "name": "design",
+      "description": "Writes a proposed design covering requirements, user experience, technical choices, and proof. Use when important product or technical choices must be settled before coding. Use architecture to document an implemented system.",
+      "category": "engineering",
+      "source": "./plugins/design"
+    },
+    {
       "name": "improve",
       "description": "Makes existing code easier to understand without changing behavior. Use to simplify structure, remove duplication or dead code, improve names, or remove unnecessary abstractions.",
       "category": "engineering",

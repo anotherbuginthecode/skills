@@ -1,0 +1,5 @@
+{
+  "name": "design",
+  "description": "Writes a proposed design covering requirements, user experience, technical choices, and proof. Use when important product or technical choices must be settled before coding. Use architecture to document an implemented system.",
+  "version": "0.1.0"
+}
