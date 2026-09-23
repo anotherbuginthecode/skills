@@ -42,7 +42,7 @@ echo "== 4/6 Creating project board =="
 "$SCRIPT_DIR/create_project_board.sh" --config "$CONFIG"
 
 echo "== 5/6 Generating SETUP.md =="
-python3 "$SCRIPT_DIR/generate_setup_md.py" "$SCRIPT_DIR/../references/default-skills.json" SETUP.md
+python3 "$SCRIPT_DIR/generate_setup_md.py" --config "$CONFIG" SETUP.md
 
 echo "== 6/6 Committing and pushing =="
 git add .

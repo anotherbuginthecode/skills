@@ -12,7 +12,7 @@ Closes #N
 
 ## Review verdict and findings
 
-<!-- The /review verdict (Approve / Request changes) and each finding with its resolution: fixed, deferred (with issue), or rejected (with reason). -->
+<!-- The /{{REVIEW_SKILL}} verdict (Approve / Request changes) and each finding with its resolution: fixed, deferred (with issue), or rejected (with reason). -->
 
 Verdict:
 

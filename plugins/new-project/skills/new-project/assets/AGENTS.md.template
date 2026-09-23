@@ -50,11 +50,19 @@ Before finishing, reread the text. Cut words that do no work. Fix sentences that
 
 Exploration does not require a design, plan, or ticket. Do not create process artifacts that do not improve a decision, handoff, or proof.
 
+{{#TASK_TO_PR}}
+## Workflow for code changes
+
+For one or more code changes, follow the `/{{TASK_TO_PR_SKILL}}` skill. It stacks dependent work after prerequisite pull requests are open and independently approved, runs independent work at the same time when useful, and takes each task through a tested and reviewed pull request. A milestone is one possible source of tasks.
+
+Merge pull requests only when the user asks. Otherwise, leave them open.
+{{/TASK_TO_PR}}
+
 ## Board conventions
 
 - Every issue has exactly one area label ({{AREA_LABELS}}) and one autonomy label (autonomy:auto|supervised). `needs-human` is a runtime signal only.
 - Status flow: Todo → In Progress → In Review → Done. "Needs human" means the human must act; the reason is in the latest issue comment.
-- autonomy:auto: deliver end to end; squash-merge after an Approve verdict from /review and green CI.
+- autonomy:auto: deliver end to end; squash-merge after an Approve verdict from `/{{REVIEW_SKILL}}` and green CI.
 - autonomy:supervised: before code, post the plan as an issue comment, add needs-human, set Needs human, and stop; continue only after a comment from the repository owner that starts with "Approved". After Approve and green CI, comment "Ready to merge" with the proof, add needs-human, set Needs human, and stop. The human merges unless they explicitly ask you to.
 - Escalation at any level: comment the problem, options, and your recommendation; add needs-human; set Needs human; stop.
 - You may raise auto to supervised with a comment explaining why. Never lower a level and never remove needs-human.

@@ -44,6 +44,42 @@ repo; "infra" can mean repo restructuring, not just provisioning).
 `.gitignore` here is deliberately stack-agnostic (see step 4); area labels
 come from step 2 instead.
 
+### 1.5. Explain the workflow, then settle the workflow skills
+
+Explain briefly what the generated `AGENTS.md` will assume: a **code
+review** skill gates every merge (referenced in Board conventions), and
+an optional **task-to-pr** skill (referenced in its own "Workflow for
+code changes" section) takes a task from an issue through a tested,
+reviewed pull request. The user does not need to have either skill
+installed yet - you're recording what the repo will assume, not
+installing anything here.
+
+Read `references/default-skills.json` for the suggested default for each
+role and show it to the user, then ask:
+
+- **Code review** (always required - `AGENTS.md`'s Board conventions
+  always names one): use the default (`review`, from the
+  `anotherbuginthecode/skills` marketplace), or a different skill? If
+  different, ask for its name and where it comes from.
+- **Task to PR** (optional): do they want this section in `AGENTS.md` at
+  all? If yes, same question - default (`task-to-pr`, same marketplace)
+  or a different skill, name and source.
+
+For any skill - default or custom - get its source, since `SETUP.md`
+(step 5) needs to know how to tell the user to get it:
+
+- **marketplace**: a plugin marketplace (`owner/repo`, e.g.
+  `anotherbuginthecode/skills`) - `SETUP.md` gets a `/plugin marketplace
+  add` + `/plugin install` step.
+- **npx**: installed by running an npx package - `SETUP.md` gets the
+  `npx <package>` command.
+- **local**: already lives in this project's own `skills/` folder -
+  `SETUP.md` just notes it's already there, no install step.
+- **global**: assumed already installed globally on the user's machine -
+  `SETUP.md` just notes that assumption, no install step.
+
+Don't guess the source for a skill you don't recognize - ask.
+
 ### 2. Propose labels
 
 Always include these labels, verbatim (name, color, description) - they
@@ -114,7 +150,20 @@ inference.
       "color": "E11D21",
       "description": "Runtime signal: human must act now"
     }
-  ]
+  ],
+  "workflow_skills": {
+    "review": {
+      "name": "review",
+      "why": "Runs the /review verdict referenced in AGENTS.md board conventions and the pull request template.",
+      "source": { "type": "marketplace", "marketplace": "anotherbuginthecode/skills" }
+    },
+    "task_to_pr": {
+      "enabled": true,
+      "name": "task-to-pr",
+      "why": "Takes a task from an issue through a tested, reviewed pull request; referenced by AGENTS.md's Workflow for code changes section.",
+      "source": { "type": "marketplace", "marketplace": "anotherbuginthecode/skills" }
+    }
+  }
 }
 ```
 
@@ -125,6 +174,13 @@ Notes:
   `AGENTS.md`'s "every issue has exactly one area label (...)" line. Order
   matters only for how that line reads.
 - `labels` is the full list that gets created via `gh label create`.
+- `workflow_skills` comes from step 1.5. `review` is always present.
+  `task_to_pr.enabled: false` (or omitting `task_to_pr` entirely) drops
+  the whole "Workflow for code changes" section from `AGENTS.md` and its
+  entry from `SETUP.md` - `name`/`why`/`source` aren't needed in that
+  case. `source.type` is `marketplace` (needs `marketplace`), `npx`
+  (needs `package`), `local`, or `global` (neither needs more fields) -
+  see step 1.5 for what each means.
 
 ### 4. Run the bootstrap
 
@@ -139,14 +195,17 @@ it always creates a new repo and a new board, so don't re-run it for the
 same project) does, in order:
 
 1. `gh repo create` + clone (`create_repo.sh`)
-2. Copies `.gitignore` (fixed block only - see `assets/gitignore`), the
-   issue and PR templates, `.claude/settings.json`, and renders
-   `AGENTS.md` / `PRODUCT.md` from their templates (`scaffold_files.sh`)
+2. Copies `.gitignore` (fixed block only - see `assets/gitignore`) and the
+   issue template, and renders `AGENTS.md`, the PR template, `PRODUCT.md`,
+   and `.claude/settings.json` from their templates (`scaffold_files.sh`) -
+   `AGENTS.md` and the PR template are rendered with the `workflow_skills`
+   values from the config, including whether the "Workflow for code
+   changes" section appears at all
 3. Creates every label in the config (`create_labels.sh`)
 4. Creates a Projects v2 board with a `Status` field
    (Todo → In Progress → In Review → Done) and links it to the repo
    (`create_project_board.sh`)
-5. Generates `SETUP.md` from `references/default-skills.json`
+5. Generates `SETUP.md` from the config's `workflow_skills`
    (`generate_setup_md.py`)
 6. Commits everything and pushes
 
@@ -157,32 +216,38 @@ working tree.
 
 ### 5. Return SETUP.md to the user
 
-`bootstrap.sh` prints `SETUP.md`'s contents at the end - a one-time,
-per-machine Claude Code plugin marketplace setup (`/plugin marketplace
-add ...`, `/plugin install ...@...`) for the skills this repo's
-`AGENTS.md` and templates assume are installed (currently `review` and
-`task-to-pr`, from `references/default-skills.json`).
+`bootstrap.sh` prints `SETUP.md`'s contents at the end - how to get each
+workflow skill settled in step 1.5, exactly the way its `source` said to
+(marketplace install command, npx command, or a note that it's already
+local/global and needs nothing).
 
 This is not a side note to bury in a longer message: echo it back to the
-user as the final, explicit output of the skill, since it's the one step
-they still have to do by hand (marketplace registration can't be
-committed to the repo - see `references/default-skills.md` maintenance
-note below).
+user as the final, explicit output of the skill, since for a
+marketplace-sourced skill it's the one step they still have to do by hand
+(marketplace registration can't be committed to the repo).
 
 ## Maintaining this skill over time
 
-`references/default-skills.json` is the single source of truth for which
-skills `SETUP.md` recommends installing. When you (or the user) build a
-new skill worth using across projects - most likely under
-`skills/engineering/` in this same marketplace repo - add an entry here:
+`references/default-skills.json` holds the suggested default for each
+workflow role (`review`, `task_to_pr`) - what you offer the user in step
+1.5 before asking if they'd rather use something else. It is not read by
+any script; `generate_setup_md.py` and the `AGENTS.md`/PR template
+rendering work entirely from the `workflow_skills` the user actually
+settled on in the config file. When you (or the user) build a new skill
+worth defaulting to for one of these roles - most likely under
+`skills/engineering/` in this same marketplace repo - update its entry
+here:
 
 ```json
 {
-  "slug": "<skill-name>",
-  "marketplace": "anotherbuginthecode/skills",
-  "why": "<one line: what it does and why this repo's workflow needs it>"
+  "review": {
+    "name": "<skill-name>",
+    "why": "<one line: what it does and why this repo's workflow needs it>",
+    "source": { "type": "marketplace", "marketplace": "anotherbuginthecode/skills" }
+  }
 }
 ```
 
-No other change is needed; `generate_setup_md.py` picks it up
-automatically on the next bootstrap.
+If a third workflow role becomes worth having a default for, add it as a
+new top-level key here and give it the same treatment as `review` /
+`task_to_pr` in step 1.5, the config schema, and `generate_setup_md.py`.

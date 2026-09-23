@@ -12,6 +12,12 @@
       "description": "Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Use whenever the user asks to start a new project, bootstrap a new repo, set up a new GitHub project for agent-driven development, or scaffold the standard engineering process files for a repo. Trigger even if they only describe the project idea without naming these files explicitly - inferring what the repo needs is part of the job.",
       "category": "engineering",
       "source": "./plugins/new-project"
+    },
+    {
+      "name": "review",
+      "description": "Uses a fresh agent to review an implementation change without editing it. Checks behavior, security, regressions, complexity, tests, docs, and missing proof. Use for code, PR, diff, security, second-opinion, or pre-merge reviews.",
+      "category": "engineering",
+      "source": "./plugins/review"
     }
   ]
 }

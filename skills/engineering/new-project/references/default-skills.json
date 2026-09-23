@@ -1,12 +1,13 @@
-[
-  {
-    "slug": "review",
-    "marketplace": "anotherbuginthecode/skills",
-    "why": "Runs the /review verdict referenced in AGENTS.md board conventions and the pull request template."
+{
+  "review": {
+    "name": "review",
+    "why": "Runs the /review verdict referenced in AGENTS.md board conventions and the pull request template.",
+    "source": { "type": "marketplace", "marketplace": "anotherbuginthecode/skills" }
   },
-  {
-    "slug": "task-to-pr",
-    "marketplace": "anotherbuginthecode/skills",
-    "why": "Takes a task from an issue through a tested, reviewed pull request; referenced by AGENTS.md's workflow for code changes once that section is enabled."
+  "task_to_pr": {
+    "enabled": true,
+    "name": "task-to-pr",
+    "why": "Takes a task from an issue through a tested, reviewed pull request; referenced by AGENTS.md's Workflow for code changes section.",
+    "source": { "type": "marketplace", "marketplace": "anotherbuginthecode/skills" }
   }
-]
+}
