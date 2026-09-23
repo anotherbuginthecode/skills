@@ -1,0 +1,8 @@
+node_modules
+dist
+.env
+*.db
+coverage
+.claude/worktrees
+.claude/settings.local.json
+.agents/skills/*/node_modules

@@ -1,0 +1,51 @@
+# {{PROJECT_NAME}} — product spec
+
+<!--
+Requirement IDs use the format PRD-<AREA>-<NN>, for example PRD-SESS-01.
+<AREA> is a short, stable slug for the story group (SESS for sessions, AUTH for
+sign-in, and so on). Tasks in .github/ISSUE_TEMPLATE/task.md reference these IDs
+under "Requirements", so keep them stable once a user story ships.
+-->
+
+## Problem statement
+
+<!-- What problem this product solves, and for whom. -->
+
+## Solution
+
+<!-- The shape of the solution at a level a new teammate can act on. -->
+
+## User stories
+
+<!-- One `###` subsection per story group, each user story with acceptance
+     criteria and its PRD ID. -->
+
+## Constraints
+
+<!-- Hard limits: performance, scale, compliance, budget, timeline. -->
+
+## Implementation decisions
+
+<!-- Decisions made while building, and why. -->
+
+## Technical decisions
+
+<!-- Architecture and technology choices, and why. -->
+
+## Testing decisions
+
+<!-- What gets automated tests, what doesn't, and why. -->
+
+## Out of scope
+
+<!-- Explicitly excluded from this product, to prevent scope creep. -->
+
+## Further notes
+
+### Technical open questions
+
+### Notes for later
+
+## Changelog
+
+<!-- Date-stamped entries for material changes to this spec. -->

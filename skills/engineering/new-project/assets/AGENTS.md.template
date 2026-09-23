@@ -1,0 +1,64 @@
+# {{PROJECT_NAME}} repository policy
+
+{{PROJECT_DESCRIPTION}}
+
+## Principles
+
+- Give agents outcomes, constraints, and proof. Trust them with mechanics.
+- Keep one skill per meaningful engineering phase or delivery outcome.
+- Keep current architecture separate from proposed design.
+- Review technical proposals before implementation when a wrong choice could materially affect behavior, data, security, scale, performance, compatibility, operations, cost, or proof.
+- Update an existing architecture document when code changes ownership, dependency direction, protocols, stored data, trust boundaries, deployment topology, or hard limits.
+- Skip phases that add no value. Small, decided work can go straight to implementation.
+- A task is ready when a new agent can finish it without asking product or technical questions.
+- Each pull request delivers one focused outcome and its proof. A reviewer should not have to separate unrelated work to understand it.
+- Separate refactoring when it would hide the behavior change. Small local cleanup may stay when it makes that change easier to review.
+- Logic changes include automated tests for changed behavior and affected failure paths, including any named in the acceptance criteria.
+- Refactors include tests for behavior that must not change.
+- If automated tests cannot exercise the affected behavior, explain why and give other evidence.
+- Review checks correctness. Ask for a simpler design when it can deliver the same outcome and proof with less state, indirection, duplication, or operational work.
+- Do not block on personal taste. Cite technical evidence or repository conventions.
+- Browser behavior is proven in a real browser, not by reading source.
+- If the task, design, or plan is wrong, update it before changing more code.
+- Prefer the smallest complete change. Do not mix product work with unrelated cleanup.
+- Humans review decisions and normally merge. Agents may merge only when the user explicitly delegates it.
+
+## Writing
+
+Write for a new teammate who needs to understand the point on the first read.
+
+- Lead with the outcome, decision, or rule. Put supporting detail after it.
+- Use short sentences and everyday words. Give each sentence one main idea.
+- Write instructions as direct commands. Put a condition before the step it controls.
+- Name the actor. Prefer `the parser rejects the file` to `the file is rejected`.
+- Use the same word for the same thing. Define a necessary technical term once.
+- Use real names, paths, commands, limits, and effects. Replace vague claims with facts.
+- Cut filler, repetition, sales language, fake warmth, and generic conclusions.
+- Use sentence case for headings. Use numbered lists for sequences and bullets for real lists.
+- Keep a human voice. State a judgment when the document calls for one. Keep instructions and reference text neutral.
+- Vary sentence length when it helps the prose sound natural. Do not force every point into the same shape.
+
+Before finishing, reread the text. Cut words that do no work. Fix sentences that can be read two ways. Rewrite anything that sounds generated instead of written for this project.
+
+## Outputs
+
+- Architecture documentation uses root `ARCHITECTURE.md`.
+- Designs default to `docs/<feature-slug>/design.md`.
+- Plans are returned in chat by default or published as tracker tickets when asked. They are not stored as plan documents.
+- Pull requests start with a short plain English summary. They then explain only the detail a reviewer needs.
+- The checklist states the real status of tests, checks, independent review, findings, documentation, and CI.
+
+Exploration does not require a design, plan, or ticket. Do not create process artifacts that do not improve a decision, handoff, or proof.
+
+## Board conventions
+
+- Every issue has exactly one area label ({{AREA_LABELS}}) and one autonomy label (autonomy:auto|supervised). `needs-human` is a runtime signal only.
+- Status flow: Todo → In Progress → In Review → Done. "Needs human" means the human must act; the reason is in the latest issue comment.
+- autonomy:auto: deliver end to end; squash-merge after an Approve verdict from /review and green CI.
+- autonomy:supervised: before code, post the plan as an issue comment, add needs-human, set Needs human, and stop; continue only after a comment from the repository owner that starts with "Approved". After Approve and green CI, comment "Ready to merge" with the proof, add needs-human, set Needs human, and stop. The human merges unless they explicitly ask you to.
+- Escalation at any level: comment the problem, options, and your recommendation; add needs-human; set Needs human; stop.
+- You may raise auto to supervised with a comment explaining why. Never lower a level and never remove needs-human.
+- Classification rubric, first match wins:
+  1. Not ready: ambiguous acceptance criteria or a missing decision. Fix the issue instead of classifying it.
+  2. supervised: auth, tokens, cookies, crypto; DB schema, migrations, deletes, data integrity; external calls with cost or personal data; security config (CORS, CSP, headers, rate limits); secrets, deployment, exposed ports; changes to a merged API contract; rendering untrusted or AI-generated content; anything a revert cannot undo; the first issue of its kind, which sets a pattern others copy.
+  3. auto: everything else.

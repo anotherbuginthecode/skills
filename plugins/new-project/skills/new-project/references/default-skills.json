@@ -1,0 +1,12 @@
+[
+  {
+    "slug": "review",
+    "marketplace": "anotherbuginthecode/skills",
+    "why": "Runs the /review verdict referenced in AGENTS.md board conventions and the pull request template."
+  },
+  {
+    "slug": "task-to-pr",
+    "marketplace": "anotherbuginthecode/skills",
+    "why": "Takes a task from an issue through a tested, reviewed pull request; referenced by AGENTS.md's workflow for code changes once that section is enabled."
+  }
+]

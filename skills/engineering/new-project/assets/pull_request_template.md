@@ -1,0 +1,29 @@
+## Summary
+
+<!-- Plain English: what changed and why. Two or three sentences. -->
+
+Closes #N
+
+## How it was proven
+
+<!-- Commands run, tests added, browser checks, and their results. Link or paste the key output. -->
+
+-
+
+## Review verdict and findings
+
+<!-- The /review verdict (Approve / Request changes) and each finding with its resolution: fixed, deferred (with issue), or rejected (with reason). -->
+
+Verdict:
+
+-
+
+## Checklist
+
+<!-- Check only what is true. For an unchecked item, say why next to it. -->
+
+- [ ] Tests added or updated for changed behavior and failure paths, and passing
+- [ ] Typecheck passes
+- [ ] Lint passes
+- [ ] Docs, ARCHITECTURE.md, or ADR updated, or not needed
+- [ ] CI is green
