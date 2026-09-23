@@ -6,17 +6,19 @@ Alessandro Mangone's personal [Claude Code](https://claude.com/claude-code) skil
 
 ```
 /plugin marketplace add anotherbuginthecode/skills
-/plugin install <skill-name>@skills
+/plugin install anotherbuginthecode-skills@anotherbuginthecode
 ```
 
-See the table below for the exact skill names currently available.
+This installs every skill in the table below at once, each as
+`/anotherbuginthecode-skills:<skill-name>` - see the "How to use" column for
+the exact command and arguments.
 
 ## Repository structure
 
 This repo keeps two trees, generated from one source of truth:
 
 - **`skills/<category>/<skill-name>/`** - the source of truth. This is where skills are written and edited, organized by category for anyone browsing the repo.
-- **`plugins/<skill-name>/`** and **`.claude-plugin/marketplace.json`** - generated. A Claude Code plugin marketplace requires each installable plugin to have its `SKILL.md` under exactly `<plugin-root>/skills/<skill-name>/SKILL.md`, which a two-level `skills/<category>/<skill-name>/` tree can't satisfy directly. `scripts/sync_plugins.py` bridges the two: it wraps every skill from `skills/` into its own plugin under `plugins/`, and regenerates `marketplace.json` and the skills table below.
+- **`plugins/anotherbuginthecode-skills/`** and **`.claude-plugin/marketplace.json`** - generated. A Claude Code plugin marketplace requires each skill's `SKILL.md` to live under `<plugin-root>/skills/<skill-name>/SKILL.md`, which a two-level `skills/<category>/<skill-name>/` tree can't satisfy directly. `scripts/sync_plugins.py` bridges the two: it bundles every skill from `skills/` into the single `anotherbuginthecode-skills` plugin (one install gets everything, and every skill's slash command reads `/anotherbuginthecode-skills:<skill-name>`), and regenerates `marketplace.json` and the skills table below.
 
 Never hand-edit `plugins/`, `.claude-plugin/marketplace.json`, or the table below - after adding, renaming, or editing a skill under `skills/`, run:
 
@@ -34,16 +36,16 @@ Skills under `skills/deprecated/` and `skills/in-progress/` are excluded from th
 
 | Skill | Description | How to use |
 | --- | --- | --- |
-| `architecture` | Creates or updates root ARCHITECTURE.md from verified implementation. Use when a repository needs current architecture documentation or a structural change made it stale. Use design for proposed systems or changes. | `/architecture [repository or existing ARCHITECTURE.md]` |
-| `architecture-review` | Reviews a technical proposal before implementation. Use for designs, RFCs, ADRs, architecture proposals, and issues that define how a system change should work. Finds material ambiguity and flaws in correctness, scalability, performance, security, operations, and proof. | `/architecture-review [technical proposal, design, RFC, ADR, or issue]` |
-| `design` | Writes a proposed design covering requirements, user experience, technical choices, and proof. Use when important product or technical choices must be settled before coding. Use architecture to document an implemented system. | `/design <feature, problem, or brief>` |
-| `improve` | Makes existing code easier to understand without changing behavior. Use to simplify structure, remove duplication or dead code, improve names, or remove unnecessary abstractions. | `/improve [code, files, diff, branch, or improvement focus]` |
-| `new-project` | Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Invoked explicitly via /new-project, not triggered automatically. | `/new-project [repo name, short project description]` |
-| `next-issue` | Coordinates one iteration of the delivery loop: resumes or picks the next ready GitHub issue for an area, delivers it through /task-to-pr, applies the board's autonomy rules, and ends with a LOOP_STATUS line. Use to drive implementation one issue per fresh context. | `/next-issue <area: infra|backend|frontend|security|docs>` |
-| `plan` | Turns an approved design or decided brief into ordered tasks for separate agent runs. Use for implementation tasks, tracker tickets, or useful milestones. Do not use for one coding task or its short execution outline. | `/plan <design, brief, issue, or request>` |
-| `project-board` | Sets up issue organization for the current GitHub repository - explores the codebase to infer area labels (area:frontend, area:backend, area:ai, area:infra, ...), confirms the label set with the user, then creates the labels and a linked Projects v2 board (Todo -> In Progress -> In Review -> Done). Invoked explicitly via /project-board, not triggered automatically. | `/project-board` |
-| `review` | Uses a fresh agent to review an implementation change without editing it. Checks behavior, security, regressions, complexity, tests, docs, and missing proof. Use for code, PR, diff, security, second-opinion, or pre-merge reviews. | `/review [diff, branch, commit, PR, or file path]` |
-| `task-to-pr` | Completes one or more tasks. Creates one tested and reviewed pull request for each task. Use to implement, build, fix, or deliver tasks, tickets, pull requests, or a milestone. | `/task-to-pr <tasks, tickets, pull requests, or milestone>` |
+| `architecture` | Creates or updates root ARCHITECTURE.md from verified implementation. Use when a repository needs current architecture documentation or a structural change made it stale. Use design for proposed systems or changes. | `/anotherbuginthecode-skills:architecture [repository or existing ARCHITECTURE.md]` |
+| `architecture-review` | Reviews a technical proposal before implementation. Use for designs, RFCs, ADRs, architecture proposals, and issues that define how a system change should work. Finds material ambiguity and flaws in correctness, scalability, performance, security, operations, and proof. | `/anotherbuginthecode-skills:architecture-review [technical proposal, design, RFC, ADR, or issue]` |
+| `design` | Writes a proposed design covering requirements, user experience, technical choices, and proof. Use when important product or technical choices must be settled before coding. Use architecture to document an implemented system. | `/anotherbuginthecode-skills:design <feature, problem, or brief>` |
+| `improve` | Makes existing code easier to understand without changing behavior. Use to simplify structure, remove duplication or dead code, improve names, or remove unnecessary abstractions. | `/anotherbuginthecode-skills:improve [code, files, diff, branch, or improvement focus]` |
+| `new-project` | Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Invoked explicitly via /new-project, not triggered automatically. | `/anotherbuginthecode-skills:new-project [repo name, short project description]` |
+| `next-issue` | Coordinates one iteration of the delivery loop: resumes or picks the next ready GitHub issue for an area, delivers it through /task-to-pr, applies the board's autonomy rules, and ends with a LOOP_STATUS line. Use to drive implementation one issue per fresh context. | `/anotherbuginthecode-skills:next-issue <area: infra|backend|frontend|security|docs>` |
+| `plan` | Turns an approved design or decided brief into ordered tasks for separate agent runs. Use for implementation tasks, tracker tickets, or useful milestones. Do not use for one coding task or its short execution outline. | `/anotherbuginthecode-skills:plan <design, brief, issue, or request>` |
+| `project-board` | Sets up issue organization for the current GitHub repository - explores the codebase to infer area labels (area:frontend, area:backend, area:ai, area:infra, ...), confirms the label set with the user, then creates the labels and a linked Projects v2 board (Todo -> In Progress -> In Review -> Done). Invoked explicitly via /project-board, not triggered automatically. | `/anotherbuginthecode-skills:project-board` |
+| `review` | Uses a fresh agent to review an implementation change without editing it. Checks behavior, security, regressions, complexity, tests, docs, and missing proof. Use for code, PR, diff, security, second-opinion, or pre-merge reviews. | `/anotherbuginthecode-skills:review [diff, branch, commit, PR, or file path]` |
+| `task-to-pr` | Completes one or more tasks. Creates one tested and reviewed pull request for each task. Use to implement, build, fix, or deliver tasks, tickets, pull requests, or a milestone. | `/anotherbuginthecode-skills:task-to-pr <tasks, tickets, pull requests, or milestone>` |
 
 <!-- SKILLS_TABLE:END -->
 

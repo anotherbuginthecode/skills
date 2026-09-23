@@ -1,5 +1,0 @@
-{
-  "name": "new-project",
-  "description": "Bootstraps a new GitHub repository with the process structure this user's projects use to be managed autonomously by AI agents - .gitignore, issue/PR templates, AGENTS.md policy, PRODUCT.md skeleton, GitHub labels, a Projects v2 board, and committed .claude/settings.json. Invoked explicitly via /new-project, not triggered automatically.",
-  "version": "0.1.0"
-}

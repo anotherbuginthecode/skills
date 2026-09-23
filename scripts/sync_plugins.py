@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Sync skills/<category>/<skill-name>/ into plugins/<skill-name>/ so each
-skill becomes an individually installable Claude Code plugin, regenerate
-.claude-plugin/marketplace.json to list them all, and refresh the skills
-table in README.md.
+"""Sync skills/<category>/<skill-name>/ into a single bundled plugin at
+plugins/<PLUGIN_NAME>/, regenerate .claude-plugin/marketplace.json to list
+it, and refresh the skills table in README.md.
 
 skills/ is the source of truth: this is where you write and edit skills,
 organized by category for humans browsing the repo. plugins/,
@@ -10,7 +9,11 @@ organized by category for humans browsing the repo. plugins/,
 output - never hand-edit them, re-run this script instead after adding,
 renaming, or editing a skill.
 
-A Claude Code plugin must have its SKILL.md under exactly
+Every skill is bundled into one plugin (PLUGIN_NAME below) rather than
+published as its own plugin, so installing once gets every skill and every
+skill's slash command reads /<PLUGIN_NAME>:<skill-name> - not
+/<skill-name>:<skill-name>, which is what one-plugin-per-skill produces. A
+Claude Code plugin needs each skill under exactly
 <plugin-root>/skills/<skill-name>/SKILL.md (one level, no custom path
 override exists for skills unlike commands/agents/hooks), so a two-level
 skills/<category>/<skill-name>/ tree cannot be a marketplace source
@@ -42,6 +45,12 @@ EXCLUDED_CATEGORIES = {"deprecated", "in-progress"}
 MARKETPLACE_NAME = "anotherbuginthecode"
 MARKETPLACE_DESCRIPTION = "Alessandro Mangone's personal Claude Code skills marketplace."
 MARKETPLACE_OWNER = {"name": "Alessandro Mangone", "email": "alessandromangone.dev@gmail.com"}
+
+# The single plugin every skill is bundled into. Its name is also the
+# slash-command prefix (/<PLUGIN_NAME>:<skill-name>), so changing it changes
+# every installed skill's command.
+PLUGIN_NAME = "anotherbuginthecode-skills"
+PLUGIN_DESCRIPTION = "All of Alessandro Mangone's Claude Code skills, bundled into one plugin. See the skills table below for what each one does."
 
 
 def parse_frontmatter(skill_md: Path) -> dict:
@@ -79,42 +88,29 @@ def build_hint(frontmatter: dict, skill_name: str) -> str:
     """How a human would actually invoke this skill, for the README table."""
     if frontmatter.get("user-invocable", "").lower() == "true":
         arg_hint = frontmatter.get("argument-hint", "").strip()
-        return f"`/{skill_name} {arg_hint}`" if arg_hint else f"`/{skill_name}`"
+        command = f"/{PLUGIN_NAME}:{skill_name}"
+        return f"`{command} {arg_hint}`" if arg_hint else f"`{command}`"
     return "Triggers automatically when your request matches its description"
 
 
-def sync_plugin(category: str, skill_name: str, skill_dir: Path) -> dict:
-    plugin_dir = PLUGINS_DIR / skill_name
-
+def copy_skill(plugin_dir: Path, category: str, skill_name: str, skill_dir: Path) -> dict:
     dest_skill_dir = plugin_dir / "skills" / skill_name
     shutil.copytree(skill_dir, dest_skill_dir)
 
     frontmatter = parse_frontmatter(skill_dir / "SKILL.md")
     description = frontmatter.get("description", "")
 
-    plugin_json = {
-        "name": skill_name,
-        "description": description,
-        "version": "0.1.0",
-    }
-    claude_plugin_dir = plugin_dir / ".claude-plugin"
-    claude_plugin_dir.mkdir(parents=True, exist_ok=True)
-    (claude_plugin_dir / "plugin.json").write_text(
-        json.dumps(plugin_json, indent=2) + "\n", encoding="utf-8"
-    )
-
     return {
         "name": skill_name,
         "description": description,
         "category": category,
-        "source": f"./plugins/{skill_name}",
         "hint": build_hint(frontmatter, skill_name),
     }
 
 
-def render_readme_table(plugin_entries: list[dict]) -> str:
+def render_readme_table(skill_entries: list[dict]) -> str:
     by_category: dict[str, list[dict]] = {}
-    for entry in plugin_entries:
+    for entry in skill_entries:
         by_category.setdefault(entry["category"], []).append(entry)
 
     lines: list[str] = []
@@ -130,7 +126,7 @@ def render_readme_table(plugin_entries: list[dict]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
-def update_readme(plugin_entries: list[dict]) -> None:
+def update_readme(skill_entries: list[dict]) -> None:
     if not README_PATH.exists():
         print(f"{README_PATH.name} does not exist, skipping README update", file=sys.stderr)
         return
@@ -144,7 +140,7 @@ def update_readme(plugin_entries: list[dict]) -> None:
 
     before, rest = text.split(README_TABLE_START, 1)
     _, after = rest.split(README_TABLE_END, 1)
-    table = render_readme_table(plugin_entries)
+    table = render_readme_table(skill_entries)
     new_text = f"{before}{README_TABLE_START}\n\n{table}\n{README_TABLE_END}{after}"
     README_PATH.write_text(new_text, encoding="utf-8")
 
@@ -167,12 +163,24 @@ def main() -> None:
     # behind.
     if PLUGINS_DIR.exists():
         shutil.rmtree(PLUGINS_DIR)
-    PLUGINS_DIR.mkdir(parents=True)
+    plugin_dir = PLUGINS_DIR / PLUGIN_NAME
+    plugin_dir.mkdir(parents=True)
 
-    plugin_entries = [
-        sync_plugin(category, skill_name, skill_dir)
+    skill_entries = [
+        copy_skill(plugin_dir, category, skill_name, skill_dir)
         for category, skill_name, skill_dir in skills
     ]
+
+    plugin_json = {
+        "name": PLUGIN_NAME,
+        "description": PLUGIN_DESCRIPTION,
+        "version": "0.1.0",
+    }
+    claude_plugin_dir = plugin_dir / ".claude-plugin"
+    claude_plugin_dir.mkdir(parents=True, exist_ok=True)
+    (claude_plugin_dir / "plugin.json").write_text(
+        json.dumps(plugin_json, indent=2) + "\n", encoding="utf-8"
+    )
 
     marketplace = {
         "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
@@ -180,16 +188,20 @@ def main() -> None:
         "description": MARKETPLACE_DESCRIPTION,
         "owner": MARKETPLACE_OWNER,
         "plugins": [
-            {k: v for k, v in entry.items() if k != "hint"} for entry in plugin_entries
+            {
+                "name": PLUGIN_NAME,
+                "description": PLUGIN_DESCRIPTION,
+                "source": f"./plugins/{PLUGIN_NAME}",
+            }
         ],
     }
     MARKETPLACE_PATH.parent.mkdir(parents=True, exist_ok=True)
     MARKETPLACE_PATH.write_text(json.dumps(marketplace, indent=2) + "\n", encoding="utf-8")
 
-    update_readme(plugin_entries)
+    update_readme(skill_entries)
 
-    print(f"Synced {len(plugin_entries)} plugin(s) into {PLUGINS_DIR.relative_to(REPO_ROOT)}/")
-    for entry in plugin_entries:
+    print(f"Synced {len(skill_entries)} skill(s) into {plugin_dir.relative_to(REPO_ROOT)}/skills/")
+    for entry in skill_entries:
         print(f"  - {entry['name']} ({entry['category']})")
     print(f"Regenerated {MARKETPLACE_PATH.relative_to(REPO_ROOT)}")
     print(f"Refreshed the skills table in {README_PATH.relative_to(REPO_ROOT)}")
