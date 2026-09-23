@@ -39,7 +39,7 @@ README_TABLE_END = "<!-- SKILLS_TABLE:END -->"
 # never be published as installable plugins.
 EXCLUDED_CATEGORIES = {"deprecated", "in-progress"}
 
-MARKETPLACE_NAME = "skills"
+MARKETPLACE_NAME = "anotherbuginthecode"
 MARKETPLACE_DESCRIPTION = "Alessandro Mangone's personal Claude Code skills marketplace."
 MARKETPLACE_OWNER = {"name": "Alessandro Mangone", "email": "alessandromangone.dev@gmail.com"}
 
