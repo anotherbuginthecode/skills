@@ -1,0 +1,5 @@
+{
+  "name": "project-board",
+  "description": "Sets up issue organization for the current GitHub repository - explores the codebase to infer area labels (area:frontend, area:backend, area:ai, area:infra, ...), confirms the label set with the user, then creates the labels and a linked Projects v2 board (Todo -> In Progress -> In Review -> Done). Invoked explicitly via /project-board, not triggered automatically.",
+  "version": "0.1.0"
+}

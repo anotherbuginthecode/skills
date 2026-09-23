@@ -1,0 +1,5 @@
+{
+  "name": "plan",
+  "description": "Turns an approved design or decided brief into ordered tasks for separate agent runs. Use for implementation tasks, tracker tickets, or useful milestones. Do not use for one coding task or its short execution outline.",
+  "version": "0.1.0"
+}

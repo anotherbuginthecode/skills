@@ -1,0 +1,5 @@
+{
+  "name": "architecture-review",
+  "description": "Reviews a technical proposal before implementation. Use for designs, RFCs, ADRs, architecture proposals, and issues that define how a system change should work. Finds material ambiguity and flaws in correctness, scalability, performance, security, operations, and proof.",
+  "version": "0.1.0"
+}

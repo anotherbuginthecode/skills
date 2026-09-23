@@ -1,0 +1,5 @@
+{
+  "name": "improve",
+  "description": "Makes existing code easier to understand without changing behavior. Use to simplify structure, remove duplication or dead code, improve names, or remove unnecessary abstractions.",
+  "version": "0.1.0"
+}

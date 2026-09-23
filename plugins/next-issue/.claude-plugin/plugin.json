@@ -1,0 +1,5 @@
+{
+  "name": "next-issue",
+  "description": "Coordinates one iteration of the delivery loop: resumes or picks the next ready GitHub issue for an area, delivers it through /task-to-pr, applies the board's autonomy rules, and ends with a LOOP_STATUS line. Use to drive implementation one issue per fresh context.",
+  "version": "0.1.0"
+}

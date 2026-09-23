@@ -93,20 +93,24 @@ Don't guess the source for a skill you don't recognize - ask.
 ### 2. Propose labels
 
 Always include these labels, verbatim (name, color, description) - they
-are cross-cutting and don't depend on the project:
+are cross-cutting and don't depend on the project. `area:docs` and
+`area:security` are area labels like any other (see below), just always
+present regardless of what the project turns out to be:
 
 | name                  | color    | description                            |
 | --------------------- | -------- | -------------------------------------- |
-| `docs`                | `0075CA` | Documentation                          |
-| `security`            | `D93F0B` | Security-sensitive                     |
+| `area:docs`           | `0075CA` | Documentation                          |
+| `area:security`       | `D93F0B` | Security-sensitive                     |
 | `autonomy:auto`       | `C2E0C6` | Agent delivers end to end              |
 | `autonomy:supervised` | `FBCA04` | Needs human approval before/after code |
 | `needs-human`         | `E11D21` | Runtime signal: human must act now     |
 
 Beyond those, read the project description and propose additional area
-labels for the real work domains you can infer (e.g. `payments`, `ai`,
-`infra`, `frontend`, `backend`, `mobile` - whatever actually fits this
-project, not a fixed enum). For each one you propose:
+labels for the real work domains you can infer (e.g. `area:payments`,
+`area:ai`, `area:infra`, `area:frontend`, `area:backend`, `area:mobile` -
+whatever actually fits this project, not a fixed enum). Every area label
+follows the `area:<domain>` naming convention - only `autonomy:*` and
+`needs-human` fall outside it. For each one you propose:
 
 - Give it a one-line description of what it covers.
 - Pick a hex color yourself, semantically if you can (e.g. red-adjacent
@@ -132,16 +136,20 @@ inference.
   "visibility": "private",
   "description": "Short one-line repo description.",
   "project_description": "Same or slightly longer description, used as the opening line of AGENTS.md.",
-  "area_labels": ["docs", "security", "payments"],
+  "area_labels": ["area:docs", "area:security", "area:payments"],
   "labels": [
-    { "name": "docs", "color": "0075CA", "description": "Documentation" },
     {
-      "name": "security",
+      "name": "area:docs",
+      "color": "0075CA",
+      "description": "Documentation"
+    },
+    {
+      "name": "area:security",
       "color": "D93F0B",
       "description": "Security-sensitive"
     },
     {
-      "name": "payments",
+      "name": "area:payments",
       "color": "5319E7",
       "description": "Billing and payment processing"
     },
