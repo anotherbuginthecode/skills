@@ -84,13 +84,6 @@ flowchart LR
 
 Use `supervised` for auth, schema, migrations, paid or personal-data calls, security config, deployment, and API contract changes. Use `auto` for the rest.
 
-### Rules
-
-- `/clear` after every issue.
-- Review runs in a fresh agent, never the author.
-- PRs branch from `main` and merge one at a time. No stacking.
-- A mistake made twice goes into `CLAUDE.md` Gotchas; a hard-to-reverse decision becomes an ADR.
-
 ## Citations
 
 `architecture`, `architecture-review`, `design`, `improve`, `plan`, and `task-to-pr` are adapted from [owainlewis/blueprint](https://github.com/owainlewis/blueprint).
