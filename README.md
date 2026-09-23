@@ -45,3 +45,7 @@ Skills under `skills/deprecated/` and `skills/in-progress/` are excluded from th
 | `task-to-pr` | Completes one or more tasks. Creates one tested and reviewed pull request for each task. Use to implement, build, fix, or deliver tasks, tickets, pull requests, or a milestone. | `/task-to-pr <tasks, tickets, pull requests, or milestone>` |
 
 <!-- SKILLS_TABLE:END -->
+
+## Citations
+
+`architecture`, `architecture-review`, `improve`, `plan`, and `task-to-pr` are adapted from [owainlewis/blueprint](https://github.com/owainlewis/blueprint).
