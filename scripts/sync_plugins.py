@@ -121,7 +121,8 @@ def render_readme_table(skill_entries: list[dict]) -> str:
         lines.append("| --- | --- | --- |")
         for entry in sorted(by_category[category], key=lambda e: e["name"]):
             description = entry["description"].replace("|", "\\|").replace("\n", " ")
-            lines.append(f"| `{entry['name']}` | {description} | {entry['hint']} |")
+            hint = entry["hint"].replace("|", "\\|")
+            lines.append(f"| `{entry['name']}` | {description} | {hint} |")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
