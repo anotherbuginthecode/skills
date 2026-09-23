@@ -221,8 +221,10 @@ same project) does, in order:
    changes" section appears at all
 3. Creates every label in the config (`create_labels.sh`)
 4. Creates a Projects v2 board with a `Status` field
-   (Todo → In Progress → In Review → Done) and links it to the repo
-   (`create_project_board.sh`)
+   (Todo → In Progress → In Review → Needs human → Done), a Board view
+   grouped by status, and three saved table views (Up next: `status:Todo`;
+   My inbox: `status:"Needs human"`; Supervised: `label:"autonomy:supervised"`),
+   and links it to the repo (`create_project_board.sh`)
 5. Generates `SETUP.md` from the config's `workflow_skills`
    (`generate_setup_md.py`)
 6. Commits everything and pushes

@@ -1,6 +1,6 @@
 ---
 name: project-board
-description: Sets up issue organization for the current GitHub repository - explores the codebase to infer area labels (area:frontend, area:backend, area:ai, area:infra, ...), confirms the label set with the user, then creates the labels and a linked Projects v2 board (Todo -> In Progress -> In Review -> Done). Invoked explicitly via /project-board, not triggered automatically.
+description: Sets up issue organization for the current GitHub repository - explores the codebase to infer area labels (area:frontend, area:backend, area:ai, area:infra, ...), confirms the label set with the user, then creates the labels and a linked Projects v2 board (Todo -> In Progress -> In Review -> Needs human -> Done) with Board/Up next/My inbox/Supervised views. Invoked explicitly via /project-board, not triggered automatically.
 disable-model-invocation: true
 user-invocable: true
 argument-hint: ""
@@ -103,7 +103,14 @@ later. `create_project_board.sh` is not - it always creates a new board, so
 only run it once per repo; it reads the repo's own owner/name via `gh repo
 view`, so it works whether the repo is personal or org-owned. It creates a
 Projects v2 board with a `Status` field (Todo -> In Progress -> In Review ->
-Done) and links it to the repo.
+Needs human -> Done), links it to the repo, and sets up four views:
+
+- **Board** - the default board view, grouped by status, showing
+  Title/Assignees/Labels/Linked pull requests.
+- **Up next** - table view filtered to `status:Todo`.
+- **My inbox** - table view filtered to `status:"Needs human"`, for items
+  that need a person's attention.
+- **Supervised** - table view filtered to `label:"autonomy:supervised"`.
 
 ### 6. Report back
 
