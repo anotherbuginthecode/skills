@@ -43,7 +43,6 @@ Before finishing, reread the text. Cut words that do no work. Fix sentences that
 ## Outputs
 
 - Architecture documentation uses root `ARCHITECTURE.md`.
-- Designs default to `docs/<feature-slug>/design.md`.
 - Plans are returned in chat by default or published as tracker tickets when asked. They are not stored as plan documents.
 - Pull requests start with a short plain English summary. They then explain only the detail a reviewer needs.
 - The checklist states the real status of tests, checks, independent review, findings, documentation, and CI.
