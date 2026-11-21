@@ -47,6 +47,12 @@ Skills under `skills/deprecated/` and `skills/in-progress/` are excluded from th
 | `review` | Uses a fresh agent to review an implementation change without editing it. Checks behavior, security, regressions, complexity, tests, docs, and missing proof. Use for code, PR, diff, security, second-opinion, or pre-merge reviews. | `/anotherbuginthecode-skills:review [diff, branch, commit, PR, or file path]` |
 | `task-to-pr` | Completes one or more tasks. Creates one tested and reviewed pull request for each task. Use to implement, build, fix, or deliver tasks, tickets, pull requests, or a milestone. | `/anotherbuginthecode-skills:task-to-pr <tasks, tickets, pull requests, or milestone>` |
 
+### Productivity
+
+| Skill | Description | How to use |
+| --- | --- | --- |
+| `dev-journal` | Turns today's Claude Code sessions in the current folder (or one session, a past day, or every project) into a dev-journal entry - what was sought, what was achieved, what was learned, dead ends, and ideas for posts, blogs, and further exploration - and saves it to Notion, a local .md/.txt file, or the chat. Invoked explicitly via /dev-journal, not triggered automatically. | `/anotherbuginthecode-skills:dev-journal [today\|session\|YYYY-MM-DD] [--to notion\|file:<path>\|chat] [--all-projects]` |
+
 <!-- SKILLS_TABLE:END -->
 
 ## Agentic workflow
