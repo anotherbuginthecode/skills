@@ -31,13 +31,20 @@ Read `~/.claude/dev-journal/config.json`. Shape:
   "destination": "notion",
   "language": "it",
   "notion": { "database_id": "...", "data_source_id": "...", "url": "..." },
-  "file": { "path": "~/dev-journal/journal.md" }
+  "file": { "path": "~/dev-journal/journal.md" },
+  "content_repo": "~/Desktop/workspace/ai/social-media-agents"
 }
 ```
 
 `destination` is `notion`, `file`, or `chat`. A `--to` argument overrides it for this run without changing the file.
 
-If the file is missing, ask the user once which destination to use (Notion, a local file with its path, or chat only) and which language to write in. Default the language to the one the user writes their prompts in. Save the answer to the config file, then continue. Do not ask again on later runs.
+`content_repo` is the folder that defines the user's content strategy. Content ideas are shaped by three files in it:
+
+- `AGENT.md` - the audiences.
+- `archivio/voce.md` - the formats, F1-F7, in section 10 ("Formats").
+- `archivio/post-indice.md` - the allowed theme tags.
+
+If the file is missing, ask the user once which destination to use (Notion, a local file with its path, or chat only), which language to write in, and where their content repo is. Default the language to the one the user writes their prompts in. Save the answers to the config file, then continue. Do not ask again on later runs.
 
 ## 3. Collect the sessions
 
@@ -64,8 +71,45 @@ Extract:
 - **Learnings.** Things that were non-obvious: a surprising tool behavior, a wrong assumption corrected, a technique that worked, a trade-off settled. Learnings are the most valuable part. Prefer a sharp specific fact to a general lesson.
 - **Dead ends and friction.** Approaches that failed and why, places where the AI misunderstood, time sinks. These often make the best post material.
 - **How the AI was used.** Delegation patterns, prompts or skills that worked, places where the human had to steer. This is a recurring theme for the user's content.
-- **Content ideas.** Two to five post or blog seeds. Each needs a hook (one line a reader would stop for), an angle (why this view is not generic), an audience, a format (LinkedIn post, thread, blog article, talk, demo), and the evidence from today that backs it.
+- **Content ideas.** Post or blog seeds, written to the rules in "Content ideas" below.
 - **Threads to explore.** Open questions and ideas that came up and were not pursued.
+- **Retro answers.** One line for each question in "Retro questions" below.
+
+### Content ideas
+
+Before writing ideas, read `AGENT.md`, section 10 of `archivio/voce.md`, and the theme list in `archivio/post-indice.md` from `content_repo`. If `content_repo` is not set or a file is missing, say which one is missing. Then use the best match you can for audience, format, and themes, and mark those fields `(unchecked)`.
+
+Keep only ideas that fit one of the two audiences in `AGENT.md`:
+
+- Tech leads who are bringing coding agents into their team's real work.
+- Founders who are building with AI-native teams.
+
+If an idea fits only another audience, such as home lab users or platform engineers, list it in one line under "Other ideas".
+
+Fill in every field for each idea:
+
+- **Title:** a possible first line of 10 to 12 words. Include a number or a named thing if there is a real one.
+- **What I want to say:** one or two sentences.
+- **Why my audience cares:** what a tech lead or founder does differently after reading it.
+- **Facts and data from today:** only things that were measured or observed: numbers, episodes, decisions. Give the source of each one (a file, test case, ADR, or session id).
+- **Material:** screenshots, tables, outputs, or diagrams that could become the post's image, with their path or link.
+- **What's missing:** what still has to be found out, decided, or measured before the post can be written. Write "Nothing" if the idea is ready.
+- **Can it be public:** what can be shown and what must stay private, such as private repos, the home setup, client names, or terms of service.
+- **Audience:** `tech-leads` or `founders`. Never both.
+- **Format:** one of F1 to F7 from `archivio/voce.md`. Add `blog` if the idea needs more room than a post.
+- **Themes:** two to four tags from the list in `archivio/post-indice.md`.
+
+Do not invent facts to make an idea look ready. If there are no facts, the idea goes in with "What's missing" filled in, or it is dropped.
+
+### Retro questions
+
+Answer each question in one line, from today's sessions. If the sessions do not answer a question, write "-".
+
+1. What broke?
+2. What did I decide, and why?
+3. What did I explain or ask more than once?
+4. Which number surprised me?
+5. What would I tell myself a month ago?
 
 Rules:
 
@@ -89,11 +133,24 @@ Use this structure. Omit a section only when it would be empty.
 ## Dead ends and friction
 ## How I worked with AI
 ## Content ideas
-### <Hook>
-- Angle:
+### <Title>
+- What I want to say:
+- Why my audience cares:
+- Facts and data from today:
+- Material:
+- What's missing:
+- Can it be public:
 - Audience:
 - Format:
-- Evidence from today:
+- Themes:
+### Other ideas
+- <one line each>
+## Retro questions
+1. What broke?
+2. What did I decide, and why?
+3. What did I explain or ask more than once?
+4. Which number surprised me?
+5. What would I tell myself a month ago?
 ## Threads to explore
 ## Sessions
 - <HH:MM-HH:MM> <title> - <project folder> - `<session id>`
@@ -113,9 +170,9 @@ Use the Notion MCP tools. If they are not connected, tell the user to connect th
    - `Name` (title)
    - `Date` (date)
    - `Project` (select) - the project folder's basename, or `all`
-   - `Tags` (multi-select) - 3 to 6 topical tags, such as `claude-code`, `agents`, `rag`, `aws`
+   - `Tags` (multi-select) - the themes used by the entry's content ideas, from `archivio/post-indice.md`
    - `Content status` (select: `Raw`, `Drafting`, `Published`) - new entries are `Raw`
-   - `Ideas` (number) - how many content ideas the entry has
+   - `Ideas` (number) - how many content ideas the entry has, not counting "Other ideas"
    - `Sessions` (number)
 
    Save the database and data source ids and the URL to the config.
