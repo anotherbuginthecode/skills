@@ -175,7 +175,7 @@ def main() -> None:
     plugin_json = {
         "name": PLUGIN_NAME,
         "description": PLUGIN_DESCRIPTION,
-        "version": "0.2.0",
+        "version": "0.3.0",
     }
     claude_plugin_dir = plugin_dir / ".claude-plugin"
     claude_plugin_dir.mkdir(parents=True, exist_ok=True)
