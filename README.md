@@ -13,6 +13,28 @@ This installs every skill in the table below at once, each as
 `/anotherbuginthecode-skills:<skill-name>` - see the "How to use" column for
 the exact command and arguments.
 
+### Any coding agent (Claude Code, Codex, ...), globally
+
+Clone the repo and symlink every skill into each agent's user-level skills
+directory:
+
+```
+git clone https://github.com/anotherbuginthecode/skills && cd skills
+python3 scripts/install_global.py            # --dry-run / --status / --uninstall
+```
+
+| Directory | Read by |
+| --- | --- |
+| `~/.agents/skills` | Codex and other agents following the Agent Skills convention |
+| `~/.claude/skills` | Claude Code |
+
+Add more with `--target <dir>` (e.g. `--target ~/.cursor/skills`). One symlink
+per skill, so other skills already in those directories are never touched, and
+edits under `skills/` are live everywhere at once. Re-run after adding,
+renaming, or removing a skill. Skills installed this way are invoked without
+the plugin prefix (`/review`, `$review` in Codex); don't also keep the Claude
+plugin installed or Claude Code will list each skill twice.
+
 ## Repository structure
 
 This repo keeps two trees, generated from one source of truth:
